@@ -23,4 +23,17 @@ class main extends AbstractController
         //     '<html><body>Lucky number: '.$number.' <br> hello world</body></html>'
         // );
     }
+    #[Route('/blog', name: 'blog')]
+    public function blog(): Response
+    {
+        $msg = 'this is blog page';
+
+        return $this->render('blog.html.twig', [
+            'message' => $msg
+        ]);
+
+        // return new Response(
+        //     '<html><body>Lucky number: '.$number.' <br> hello world</body></html>'
+        // );
+    }
 }
