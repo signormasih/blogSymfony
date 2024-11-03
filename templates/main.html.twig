@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>symfony Blog</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 </head>
 <body>
-    <h1>{{message}}</h1>
+    <h1 class="text-3xl font-bold underline">{{message}}</h1>
     <h2>Your lucky number is {{ number }}</h2>
 </body>
 </html>
