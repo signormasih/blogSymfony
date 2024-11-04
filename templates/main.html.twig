@@ -9,8 +9,14 @@
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 </head>
-<body>
-    <h1 class="text-3xl font-bold underline">{{message}}</h1>
-    <h2>Your lucky number is {{ number }}</h2>
+<body class="bg-stone-950 text-slate-100" dir="rtl">
+    {% include "navbar.html" %}
+    <div class="container flex items-center justify-around">
+        <div class="mt-[100px] flex items-center flex-col">
+            <h1 class="text-3xl">سیمفونی وبلاگ</h1>
+            <p class="mt-3">این یک پروژه تست وبلاگ با سیمفونی می‌باشد</p>
+            <a href="/blog" class="mt-4 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">وبلاگ</a>
+        </div>
+    </div>
 </body>
 </html>

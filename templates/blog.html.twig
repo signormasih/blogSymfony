@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>symfony Blog</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 </head>
-<body>
-    <h1>{{message}}</h1>
+<body class="bg-stone-950 text-slate-100" dir="rtl">
+    {% include "navbar.html" %}
 </body>
 </html>

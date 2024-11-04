@@ -11,14 +11,8 @@ class main extends AbstractController
     #[Route('/', name: 'main')]
     public function main(): Response
     {
-        $number = random_int(0, 100);
-        $msg = 'Hello World';
 
-        return $this->render('main.html.twig', [
-            'number' => $number,
-            'message' => $msg
-        ]);
-
+        return $this->render('main.html.twig', []);
         // return new Response(
         //     '<html><body>Lucky number: '.$number.' <br> hello world</body></html>'
         // );
