@@ -18,6 +18,20 @@ class UserController extends AbstractController
     public function index(string $condition, EntityManagerInterface $entityManager, Request $request,
     UserPasswordHasherInterface $passwordHasher): Response
     {
+        $session = $request->getSession();
+        $userisLogin = $session->get('userisLogin');
+
+        if($condition == "logout"){
+            $session->set('userisLogin', '');
+            $session->set('username', '');
+            $session->set('isadmin', '');
+            
+            return $this->redirect('/');
+        }
+
+        if($userisLogin == '1'){
+            return $this->redirect('/');
+        }
         if ($request->isMethod('post') && $condition == "register") {
             $username = $request->get('username');
             $password = $request->get('password');
@@ -55,20 +69,23 @@ class UserController extends AbstractController
 
             $user = new User();
             $user->setEmail($email);
-            $user->setRole('USER');
+            $user->setRole('user');
             $hashedPassword = $password;
             $user->setPassword($hashedPassword);
             $user->setUsername($username);
 
-
+            
             // tell Doctrine you want to (eventually) save the Product (no queries yet)
             $entityManager->persist($user);
             // actually executes the queries (i.e. the INSERT query)
+            
             $entityManager->flush();
-            return $this->render('user/index.html.twig', [
-                'loginOrRegister' => 'register',
-                'err' => ""
-            ]);
+            
+            $session->set('userisLogin', '1');
+            $session->set('username', $username);
+
+            return $this->redirect('/');
+
         }elseif ($request->isMethod('post') && $condition == "login"){
             $username = $request->get('username');
             $password = $request->get('password');
@@ -84,6 +101,19 @@ class UserController extends AbstractController
                     'err' => "نام‌کاربری یا رمز عبور اشتباه می‌باشد"
                 ]);
             }
+            $repo_user_isAdmin = $entityManager->getRepository(User::class)->findOneBy(
+                [
+                    'username' => $username,
+                    'role' => 'admin'
+                ]
+            );
+            if($repo_user_isAdmin){
+                $session->set('isadmin', '1');
+            }
+            $session->set('userisLogin', '1');
+            $session->set('username', $username);
+
+            return $this->redirect('/');
         }
         if($condition == "register"){
             return $this->render('user/index.html.twig', [
