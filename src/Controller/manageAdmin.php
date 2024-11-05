@@ -84,4 +84,76 @@ class manageAdmin extends AbstractController
         $entityManager->flush();
         return $this->json(["status" => 1]);
     }
+
+    #[Route('/manageAdmin/insertPostType', name: 'manageAdmin_insertPostType')]
+    public function manageAdminInsertPostType(EntityManagerInterface $entityManager, Request $request): JsonResponse
+    {
+        $session = $request->getSession();
+        $userisLogin = $session->get('userisLogin');
+        $isadmin = $session->get('isadmin');
+        if($userisLogin != '1' && $isadmin != '1'){
+            return $this->json([]);
+        }
+        $dataName = $request->get('data');
+        if($dataName == ""){
+            return $this->json(["status" => 0]);
+        }
+        $newPostType = new PostType();
+        $newPostType->setName($dataName);
+        $entityManager->persist($newPostType);
+        $entityManager->flush();
+
+        return $this->json(["status" => 1]);
+    }
+
+    #[Route('/manageAdmin/insertCategory', name: 'manageAdmin_insertCategory')]
+    public function manageAdminInsertCategory(EntityManagerInterface $entityManager, Request $request): JsonResponse
+    {
+        $session = $request->getSession();
+        $userisLogin = $session->get('userisLogin');
+        $isadmin = $session->get('isadmin');
+        if($userisLogin != '1' && $isadmin != '1'){
+            return $this->json([]);
+        }
+        $dataName = $request->get('data');
+        if($dataName == ""){
+            return $this->json(["status" => 0]);
+        }
+        $insertCategory = new Category();
+        $insertCategory->setName($dataName);
+        $entityManager->persist($insertCategory);
+        $entityManager->flush();
+
+        return $this->json(["status" => 1]);
+    }
+
+    #[Route('/manageAdmin/deleteCategory/{id}', name: 'manageAdmin_deleteCategory')]
+    public function manageAdminDeleteCategory(EntityManagerInterface $entityManager, Request $request, int $id): JsonResponse
+    {
+        $session = $request->getSession();
+        $userisLogin = $session->get('userisLogin');
+        $isadmin = $session->get('isadmin');
+        if($userisLogin != '1' && $isadmin != '1'){
+            return $this->json([]);
+        }
+        $category = $entityManager->getRepository(Category::class)->findOneBy(['id' => $id]);
+        $entityManager->remove($category);
+        $entityManager->flush();
+        return $this->json(["status" => 1]);
+    }
+
+    #[Route('/manageAdmin/deletePostType/{id}', name: 'manageAdmin_deletePostType')]
+    public function manageAdminDeletePostType(EntityManagerInterface $entityManager, Request $request, int $id): JsonResponse
+    {
+        $session = $request->getSession();
+        $userisLogin = $session->get('userisLogin');
+        $isadmin = $session->get('isadmin');
+        if($userisLogin != '1' && $isadmin != '1'){
+            return $this->json([]);
+        }
+        $postType = $entityManager->getRepository(PostType::class)->findOneBy(['id' => $id]);
+        $entityManager->remove($postType);
+        $entityManager->flush();
+        return $this->json(["status" => 1]);
+    }
 }
