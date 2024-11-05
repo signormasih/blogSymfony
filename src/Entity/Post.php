@@ -24,7 +24,7 @@ class Post
     private ?string $content = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $publishedAt = null;
+    private ?\DateTime $publishedAt = null;
 
     #[ORM\Column]
     private ?int $userId = null;
@@ -37,6 +37,9 @@ class Post
 
     #[ORM\Column(length: 16)]
     private ?string $status = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $media = null;
 
     public function getId(): ?int
     {
@@ -79,12 +82,12 @@ class Post
         return $this;
     }
 
-    public function getPublishedAt(): ?\DateTimeImmutable
+    public function getPublishedAt(): ?\DateTime
     {
         return $this->publishedAt;
     }
 
-    public function setPublishedAt(\DateTimeImmutable $publishedAt): static
+    public function setPublishedAt(\DateTime $publishedAt): static
     {
         $this->publishedAt = $publishedAt;
 
@@ -135,6 +138,18 @@ class Post
     public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getMedia(): ?string
+    {
+        return $this->media;
+    }
+
+    public function setMedia(?string $media): static
+    {
+        $this->media = $media;
 
         return $this;
     }

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>symfony Blog</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body class="bg-stone-950 text-slate-100" dir="rtl">
+    {% include "navbar.html" %}
+    <div class="flex justify-around mt-[20px]">
+        <form action="/createPost" method="post" class=" w-[500px]" enctype='multipart/form-data'>
+            <div class="mb-3 flex items-center">
+                <label for="title" class="w-[120px] px-3 block mb-2 text-sm font-medium text-gray-900 dark:text-white">موضوع</label>
+                <input name="title" type="text" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="متن تستی" required />
+            </div> 
+            <div class="mb-3 flex items-center">
+                <label for="name" class="w-[120px] px-3 block mb-2 text-sm font-medium text-gray-900 dark:text-white">خلاصه</label>
+                <input name="name" type="text" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="این یک متن تستی میباشد" required />
+            </div> 
+            <div class="mb-3 flex items-center">
+                <label for="content" class="w-[120px] px-3 block mb-2 text-sm font-medium text-gray-900 dark:text-white">محتوا</label>
+                <textarea name="content" id="content" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
+            </div> 
+            <div class="mb-3 flex items-center">
+                <label for="category" class="w-[120px] px-3 block mb-2 text-sm font-medium text-gray-900 dark:text-white">دسته بندی</label>
+                <select name="category" id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="0">دسته بنده نشده</option>
+                    {% for category in allCategory %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div> 
+            <div class="mb-3 flex items-center">
+                <label for="postType" class="w-[120px] px-3 block mb-2 text-sm font-medium text-gray-900 dark:text-white">نوع پست</label>
+                <select name="postType" id="postType" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="0">دسته بنده نشده</option>
+                    {% for postType in allPostType %}
+                    <option value="{{ postType.id }}">{{ postType.name }}</option>
+                    {% endfor %}
+                </select>
+            </div> 
+            <div class="mb-3 flex items-center">
+                <label for="media" class="w-[120px] px-3 block mb-2 text-sm font-medium text-gray-900 dark:text-white">رسانه</label>
+                <input name="media" id="media" class="p-3 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file">
+            </div> 
+            <div class="mb-3 flex items-center justify-around">
+                <button type="submit" class="w-[200px] mt-4 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">ثبت نوشته</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
