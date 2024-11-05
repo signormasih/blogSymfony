@@ -1,6 +1,8 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Category;
+use App\Entity\PostType;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -26,9 +28,17 @@ class manageAdmin extends AbstractController
         $repository_user = $entityManager->getRepository(User::class);
         $allUser = $repository_user->findAll();
 
+        $repository_category = $entityManager->getRepository(Category::class);
+        $allCatgory = $repository_category->findAll();
+
+        $repository_PostType = $entityManager->getRepository(PostType::class);
+        $allPostType = $repository_PostType->findAll();
+
         return $this->render('admin/manageAdmin.html.twig', 
             [
-                'allUser' => $allUser
+                'allUser' => $allUser,
+                'allCatgory' => $allCatgory,
+                'allPostType' => $allPostType
             ]
         );
     }
