@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Entity\User;
+use App\Entity\Users;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +45,7 @@ class UserController extends AbstractController
                 ]);
             }
 
-            $repo_username = $entityManager->getRepository(User::class)->findOneBy(['username' => $username]);
+            $repo_username = $entityManager->getRepository(Users::class)->findOneBy(['username' => $username]);
             if($repo_username){
                 return $this->render('user/index.html.twig', [
                     'loginOrRegister' => 'register',
@@ -59,7 +59,7 @@ class UserController extends AbstractController
                 ]);
             }
 
-            $repo_email = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+            $repo_email = $entityManager->getRepository(Users::class)->findOneBy(['email' => $email]);
             if($repo_email){
                 return $this->render('user/index.html.twig', [
                     'loginOrRegister' => 'register',
@@ -67,7 +67,7 @@ class UserController extends AbstractController
                 ]);
             }
 
-            $user = new User();
+            $user = new Users();
             $user->setEmail($email);
             $user->setRole('user');
             $hashedPassword = $password;
@@ -89,7 +89,7 @@ class UserController extends AbstractController
         }elseif ($request->isMethod('post') && $condition == "login"){
             $username = $request->get('username');
             $password = $request->get('password');
-            $repo_user = $entityManager->getRepository(User::class)->findOneBy(
+            $repo_user = $entityManager->getRepository(Users::class)->findOneBy(
                 [
                     'username' => $username,
                     'password' => $password
@@ -101,7 +101,7 @@ class UserController extends AbstractController
                     'err' => "نام‌کاربری یا رمز عبور اشتباه می‌باشد"
                 ]);
             }
-            $repo_user_isAdmin = $entityManager->getRepository(User::class)->findOneBy(
+            $repo_user_isAdmin = $entityManager->getRepository(Users::class)->findOneBy(
                 [
                     'username' => $username,
                     'role' => 'admin'

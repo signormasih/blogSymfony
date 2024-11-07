@@ -3,7 +3,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\PostType;
-use App\Entity\User;
+use App\Entity\Users;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +25,7 @@ class manageAdmin extends AbstractController
             return $this->redirect('/');
         }
 
-        $repository_user = $entityManager->getRepository(User::class);
+        $repository_user = $entityManager->getRepository(Users::class);
         $allUser = $repository_user->findAll();
 
         $repository_category = $entityManager->getRepository(Category::class);
@@ -51,7 +51,7 @@ class manageAdmin extends AbstractController
         if($userisLogin != '1' && $isadmin != '1'){
             return $this->json([]);
         }
-        $userforDelete = $entityManager->getRepository(User::class)->findOneBy(['id' => $id]);
+        $userforDelete = $entityManager->getRepository(Users::class)->findOneBy(['id' => $id]);
         $entityManager->remove($userforDelete);
         $entityManager->flush();
         return $this->json(["status" => 1]);
@@ -65,7 +65,7 @@ class manageAdmin extends AbstractController
         if($userisLogin != '1' && $isadmin != '1'){
             return $this->json([]);
         }
-        $userforUpdate = $entityManager->getRepository(User::class)->findOneBy(['id' => $id]);
+        $userforUpdate = $entityManager->getRepository(Users::class)->findOneBy(['id' => $id]);
         $userforUpdate->setRole('admin');
         $entityManager->flush();
         return $this->json(["status" => 1]);
@@ -79,7 +79,7 @@ class manageAdmin extends AbstractController
         if($userisLogin != '1' && $isadmin != '1'){
             return $this->json([]);
         }
-        $userforUpdate = $entityManager->getRepository(User::class)->findOneBy(['id' => $id]);
+        $userforUpdate = $entityManager->getRepository(Users::class)->findOneBy(['id' => $id]);
         $userforUpdate->setRole('user');
         $entityManager->flush();
         return $this->json(["status" => 1]);

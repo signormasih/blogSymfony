@@ -5,7 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\PostType;
-use App\Entity\User;
+use App\Entity\Users;
 use App\Entity\Post;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -55,7 +55,7 @@ class main extends AbstractController
         $repo_post = $entityManager->getRepository(Post::class);
         $repo_category = $entityManager->getRepository(Category::class);
         $repo_posttype = $entityManager->getRepository(PostType::class);
-        $repo_User = $entityManager->getRepository(User::class);
+        $repo_User = $entityManager->getRepository(Users::class);
         
         if($username_User){
             $user_data = $repo_User->findOneBy(["username" => $username_User]);
@@ -160,7 +160,7 @@ class main extends AbstractController
         $isadmin = $session->get('isadmin');
 
         $repo_post = $entityManager->getRepository(Post::class);
-        $repo_User = $entityManager->getRepository(User::class);
+        $repo_User = $entityManager->getRepository(Users::class);
 
         if($username_User){
             $user_data = $repo_User->findOneBy(["username" => $username_User]);

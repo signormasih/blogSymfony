@@ -4,7 +4,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Post;
 use App\Entity\PostType;
-use App\Entity\User;
+use App\Entity\Users;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -56,7 +56,7 @@ class postBlog extends AbstractController
                 ]);
             }
 
-            $userData = $entityManager->getRepository(User::class)->findOneBy(['username' => $username_User]);
+            $userData = $entityManager->getRepository(Users::class)->findOneBy(['username' => $username_User]);
 
             $post = new Post();
             //$logger->info('arh => '.$fileMedia);
