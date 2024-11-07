@@ -99,9 +99,7 @@ class main extends AbstractController
             }
             $dataJson['count'] = $row;
         }else{
-            $logger->info("arh 98");
             $postData = $entityManager->getRepository(Post::class)->findValidPostAndUserPost($userId);
-            $logger->info("arh 100 => ". print_r($postData,1));
             // $logger->info("arh 77 ==> ". print_r($postData[0],1 ));
             // $postData = [];
             $row = 0;
@@ -147,14 +145,16 @@ class main extends AbstractController
                 foreach($dataJson as $key => $value){
                     if($key != "count"){
                         if($value["creator"] == $username_User){
+                            $newDataJson[$row] = $dataJson[$key];
                             $row++;
                         }else{
                             unset($dataJson[$key]);
                         }
                     }
                 }
+                $dataJson = $newDataJson;
+                $dataJson['count'] = $row;
             }
-            $dataJson['count'] = $row;
         }
 
         return $this->json($dataJson);
