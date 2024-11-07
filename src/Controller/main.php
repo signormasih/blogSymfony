@@ -77,12 +77,16 @@ class main extends AbstractController
                 $category_post = $repo_category->findOneBy(["id" => $data->getCategoryId()]);
                 if($category_post){
                     $categoryName = $category_post->getName();
+                }else{
+                    $categoryName = "بدون دسته‌بندی";
                 }
                 $dataJson[$row]['category'] = $categoryName;
 
                 $postType_post = $repo_posttype->findOneBy(['id' => $data->getPostTypeId()]);
                 if($postType_post){
                     $postTypeName = $postType_post->getName();
+                }else{
+                    $postTypeName = 'بدون نوع';
                 }
                 $dataJson[$row]['posttype'] = $postTypeName;
 
@@ -95,7 +99,9 @@ class main extends AbstractController
             }
             $dataJson['count'] = $row;
         }else{
+            $logger->info("arh 98");
             $postData = $entityManager->getRepository(Post::class)->findValidPostAndUserPost($userId);
+            $logger->info("arh 100 => ". print_r($postData,1));
             // $logger->info("arh 77 ==> ". print_r($postData[0],1 ));
             // $postData = [];
             $row = 0;
@@ -108,12 +114,16 @@ class main extends AbstractController
                 $category_post = $repo_category->findOneBy(["id" => $data["category_id"]]);
                 if($category_post){
                     $categoryName = $category_post->getName();
+                }else{
+                    $categoryName = "بدون دسته‌بندی";
                 }
                 $dataJson[$row]['category'] = $categoryName;
 
                 $postType_post = $repo_posttype->findOneBy(['id' => $data["post_type_id"]]);
                 if($postType_post){
                     $postTypeName = $postType_post->getName();
+                }else{
+                    $postTypeName = 'بدون نوع';
                 }
                 $dataJson[$row]['posttype'] = $postTypeName;
 

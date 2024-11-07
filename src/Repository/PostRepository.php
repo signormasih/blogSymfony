@@ -20,10 +20,7 @@ class PostRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
 
-        $sql = '
-            SELECT * FROM post
-            WHERE user_id = :userId OR status = "valid"
-            ';
+        $sql = 'SELECT * FROM post WHERE user_id = :userId OR status = \'valid\'';
 
         $resultSet = $conn->executeQuery($sql, ['userId' => $userId]);
 
