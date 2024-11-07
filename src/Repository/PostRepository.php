@@ -15,6 +15,20 @@ class PostRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Post::class);
     }
+    public function findValidPostAndUserPost(int $userId): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT * FROM post
+            WHERE user_id = :userId OR status = "valid"
+            ';
+
+        $resultSet = $conn->executeQuery($sql, ['userId' => $userId]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
 
     //    /**
     //     * @return Post[] Returns an array of Post objects
