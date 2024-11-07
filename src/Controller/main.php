@@ -142,11 +142,22 @@ class main extends AbstractController
         $isadmin = $session->get('isadmin');
 
         $repo_post = $entityManager->getRepository(Post::class);
+        $repo_User = $entityManager->getRepository(User::class);
+
+        if($username_User){
+            $user_data = $repo_User->findOneBy(["username" => $username_User]);
+            $userId = $user_data->getId();
+        }else{
+            $userId = 0;
+        }
 
         if($isadmin == '1'){
             $postData = $repo_post->find($id);
         }else{
             $postData = $repo_post->findOneBy(['id' => $id]);
+            if( !($postData->getStatus() == 'valid' || $postData->getUserId() == $userId) ){
+                return $this->redirect('/blog');
+            }
         }
         
         return $this->render('singleBlog.html.twig', [
