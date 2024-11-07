@@ -16,7 +16,7 @@
             <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">فیلترها</h3>
             <div class="flex">
                 <div class="flex items-center me-4 p-3 border rounded-lg m2">
-                    <input id="inline-checkbox-personal" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input onclick="filterPost('ownpost')" name="ownpost" id="inline-checkbox-personal" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="inline-checkbox-personal" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">نوشته‌های من</label>
                 </div>
             </div>
@@ -24,7 +24,7 @@
             <div class="flex flex-wrap">
                 {% for category in allcategory %}
                 <div class="flex items-center me-4 p-3 border rounded-lg m-2">
-                    <input id="inline-checkbox{{ category.id }}" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input onclick="filterPost('postType')" name="{{ category.name }}" id="inline-checkbox{{ category.id }}" type="checkbox" value="" class=" categoryFilter w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="inline-checkbox{{ category.id }}" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ category.name }}</label>
                 </div>
                 {% endfor %}
@@ -33,7 +33,7 @@
             <div class="flex flex-wrap">
                 {% for postType in allPostType %}
                 <div class="flex items-center me-4 p-3 border rounded-lg m-2">
-                    <input id="inline-checkbox{{ postType.id }}" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input onclick="filterPost('postType')" name="{{ postType.name }}" id="inline-checkbox{{ postType.id }}" type="checkbox" value="" class=" postTypeFilter w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="inline-checkbox{{ postType.id }}" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ postType.name }}</label>
                 </div>
                 {% endfor %}

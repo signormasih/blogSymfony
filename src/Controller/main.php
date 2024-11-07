@@ -63,11 +63,6 @@ class main extends AbstractController
         }else{
             $userId = 0;
         }
-        //with filter
-        if($request->isMethod('post')){
-            // $postData = $entityManager->getRepository(Post::class)->findValidPostAndUserPost($userId);
-            return $this->json($dataJson);
-        }
         
         //without filter
         if($isadmin == '1'){
@@ -125,6 +120,29 @@ class main extends AbstractController
                 $user_creator = $repo_User->findOneBy(["id" => $data['user_id']]); 
                 $dataJson[$row]['creator'] = $user_creator->getUsername();
                 $row++;
+            }
+            $dataJson['count'] = $row;
+        }
+
+        //with filter
+        if($request->isMethod('post')){
+            if($request->get('category')){
+                $dataCategory = explode(',',$request->get('category'));
+            }
+            if($request->get('postType')){
+                $dataPostType = explode(',',$request->get('postType'));
+            }
+            if($request->get('ownpost')){
+                $row = 0;
+                foreach($dataJson as $key => $value){
+                    if($key != "count"){
+                        if($value["creator"] == $username_User){
+                            $row++;
+                        }else{
+                            unset($dataJson[$key]);
+                        }
+                    }
+                }
             }
             $dataJson['count'] = $row;
         }

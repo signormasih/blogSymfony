@@ -61,3 +61,55 @@ function createRow(postTitle, postName, postCreator, postCategory, postType, pos
 
     return link;
 }
+
+function filterPost(dataType){
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", `/blog/data`);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    dataSend = '';
+    ownPost = document.getElementById("inline-checkbox-personal");
+    if(ownPost.checked){
+        dataSend += "ownpost=1&";
+    }else{
+        dataSend += "ownpost=0&";
+    }
+    categoryFilter = document.getElementsByClassName("categoryFilter");
+    categoryData = '';
+    for(i = 0; i < categoryFilter.length; i++){
+        if(categoryFilter[i].checked){
+            categoryData += `${ categoryFilter[i].getAttribute('name') },`;
+        }
+    }
+    dataSend += `category=${categoryData}&`;
+
+    postTypeFilter = document.getElementsByClassName("postTypeFilter");
+    postTypeData = '';
+    for(i = 0; i < postTypeFilter.length; i++){
+        if(postTypeFilter[i].checked){
+            postTypeData += `${ postTypeFilter[i].getAttribute('name') },`;
+        }
+    }
+    dataSend += `postType=${postTypeData}`;
+
+    xhttp.send(dataSend);
+    xhttp.onload = function() {
+        childBlog = containerBlog.lastElementChild;
+        while (childBlog) {
+            containerBlog.removeChild(childBlog);
+            childBlog = containerBlog.lastElementChild;
+        }
+        datajson = JSON.parse(this.responseText)
+        console.log(datajson);
+        for(i = 0; i < datajson.count; i++){
+            item = createRow(datajson[i].title, 
+                             datajson[i].name, 
+                             datajson[i].creator, 
+                             datajson[i].category, 
+                             datajson[i].posttype,
+                             datajson[i].publishedAt,
+                             datajson[i].id
+                            );
+            containerBlog.appendChild(item);
+        }
+    }
+}
