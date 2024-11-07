@@ -82,3 +82,26 @@ function deletePostType(postTypeId) {
     xhttp.open("GET", `/manageAdmin/deletePostType/${postTypeId}`, true);
     xhttp.send();
 }
+function deletePost(postId) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function() {
+        datajson = JSON.parse(this.responseText)
+        if(datajson.status == 1){
+            window.location.href = "/blog";
+        }
+    }
+    xhttp.open("GET", `/deletePost/${postId}`, true);
+    xhttp.send();
+}
+function changeStatus(statusType, postId){
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", `/statuspost/${postId}`);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`status=${statusType}`);
+    xhttp.onload = function() {
+        datajson = JSON.parse(this.responseText)
+        if(datajson.status == 1){
+            location.reload();
+        }
+    }
+}

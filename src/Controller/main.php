@@ -134,13 +134,57 @@ class main extends AbstractController
 
     // #[Route('/post/{postTitle}', name: 'post', requirements: ['page' => '\d+'])]
     // #[Route('/post/{page<\d+>}', name: 'post')]
-    #[Route('/post/{postTitle}', name: 'post')]
-    public function postBlog(string $postTitle): Response
+    #[Route('/post/{id}', name: 'singlePost')]
+    public function postBlog(EntityManagerInterface $entityManager, Request $request, int $id): Response
     {
-        $msg = 'this is blog page'.$postTitle;
+        $session = $request->getSession();
+        $username_User = $session->get('username');
+        $isadmin = $session->get('isadmin');
 
-        return $this->render('blog.html.twig', [
-            'message' => $msg
+        $repo_post = $entityManager->getRepository(Post::class);
+
+        if($isadmin == '1'){
+            $postData = $repo_post->find($id);
+        }else{
+            $postData = $repo_post->findOneBy(['id' => $id]);
+        }
+        
+        return $this->render('singleBlog.html.twig', [
+            'postData' => $postData,
+            'isadmin' => $isadmin
         ]);
+    }
+    #[Route('/deletePost/{id}', name: 'deletePost')]
+    public function manageAdminDeletePostType(EntityManagerInterface $entityManager, Request $request, int $id): JsonResponse
+    {
+        $session = $request->getSession();
+        $userisLogin = $session->get('userisLogin');
+        $isadmin = $session->get('isadmin');
+        if($userisLogin != '1' && $isadmin != '1'){
+            return $this->json([]);
+        }
+        $postType = $entityManager->getRepository(Post::class)->findOneBy(['id' => $id]);
+        $entityManager->remove($postType);
+        $entityManager->flush();
+        return $this->json(["status" => 1]);
+    }
+    #[Route('/statuspost/{id}', name: 'statusPost')]
+    public function manageAdminInsertCategory(EntityManagerInterface $entityManager, Request $request, int $id): JsonResponse
+    {
+        $session = $request->getSession();
+        $userisLogin = $session->get('userisLogin');
+        $isadmin = $session->get('isadmin');
+        if($userisLogin != '1' && $isadmin != '1'){
+            return $this->json([]);
+        }
+        $dataStatus = $request->get('status');
+        if($dataStatus == ""){
+            return $this->json(["status" => 0]);
+        }
+        $post = $entityManager->getRepository(Post::class)->find($id);
+        $post->setStatus($dataStatus);
+        $entityManager->flush();
+
+        return $this->json(["status" => 1]);
     }
 }
