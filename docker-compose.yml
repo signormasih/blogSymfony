@@ -1,0 +1,17 @@
+services:
+
+  postgres:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    volumes:
+      - "/var/www/app/db_data:/var/lib/postgresql/data:rw"
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: postgres
+      POSTGRES_DB: symfonyblogdb
+
+    ports:
+      - "5432:5432"
